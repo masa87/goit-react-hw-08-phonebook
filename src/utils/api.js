@@ -7,12 +7,8 @@ export const api = createApi({
   reducerPath: "contactsApi",
   tagTypes: ["Contacts", "Users"],
   endpoints: (build) => ({
-    // getUsers: build.query({
-    //   query: () => `users/`,
-    //   providesTags: ["Contacts"],
-    // }),
     getUserById: build.query({
-      query: (id) => `users/${id}`,
+      query: (userId) => `users/${userId}`,
       providesTags: ["Users"],
     }),
     getContacts: build.query({
@@ -24,23 +20,23 @@ export const api = createApi({
       providesTags: ["Contacts"],
     }),
     getUserContacts: build.query({
-      query: () => `users/:id/contacts/`,
-      providesTags: ["Contacts"],
+      query: (userId) => `users/${userId}/contacts/`,
+      providesTags: ["Contacts", "Users"],
     }),
     postContact: build.mutation({
-      query: (contact) => ({
-        url: "contacts/",
+      query: ([userId, contact]) => ({
+        url: `users/${userId}/contacts/`,
         method: "POST",
         body: contact,
       }),
       invalidatesTags: ["Contacts"],
     }),
     deleteContact: build.mutation({
-      query: (id) => ({
-        url: `contacts/${id}`,
+      query: ([userId, id]) => ({
+        url: `users/${userId}/contacts/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Contacts"],
+      invalidatesTags: ["Contacts", "Users"],
     }),
   }),
 });

@@ -1,22 +1,35 @@
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import ContactForm from "./components/ContactForm/ContactForm";
 import { ContactList } from "./components/ContactList/ContactList";
 import { Filter } from "./components/Filter/Filter";
 import Login from "./components/Login/Login";
-// imporg Login
-// import { store } from "./app/store";
 
 const App = () => {
   return (
-    <div>
+    <BrowserRouter>
       <h1>Phonebook</h1>
-
-      <ContactForm />
-      {/* <h2>Contacts</h2> */}
-      <Filter />
-      <ContactList />
-      <Login />
-    </div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <h3>Please log in</h3>
+              <Login />
+            </>
+          }></Route>
+        <Route
+          path="/:id/contacts"
+          element={
+            <>
+              <ContactForm />
+              <Filter />
+              <ContactList />
+            </>
+          }></Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 

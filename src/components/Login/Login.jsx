@@ -1,37 +1,43 @@
 import React, { useState } from "react";
-// import { useSelector } from "react-redux";
 import { useGetUsersQuery } from "../../utils/api.js";
+import { Link } from "react-router-dom";
+import ContactForm from "../ContactForm/ContactForm.jsx";
+import { store } from "../../app/store.js";
+import { setUserId } from "../../features/contacts.js";
+import { useSelector } from "react-redux";
 
 const Login = () => {
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState("");
 
+  // const userId =
   const { data, isError, isLoading } = useGetUsersQuery();
-  console.log(data);
+  // console.log(data);
 
-  // let userId;
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
     const userNameForm = formData.get("userName");
     const passwordForm = formData.get("password");
-    console.log(userNameForm);
+    // console.log(userNameForm);
 
     const checkUser = data.find(
       ({ userName, password }) =>
         userName === userNameForm && password === passwordForm
     );
 
-    // checkUser !== undefined ? (userId = checkUser.id) : (userId = null);
-    checkUser !== undefined ? setUserId(checkUser.id) : setUserId(null);
-    console.log(userId);
-    // console.log(checkUser.id);
-    // userId = checkUser.id;
-    // return userId;
-  };
+    // console.log(checkUser);
 
-  //   const registeredUser = (data) => {};
-  // });
+    checkUser !== undefined
+      ? store.dispatch(setUserId(checkUser.id))
+      : store.dispatch(setUserId(null));
+
+    // userId = checkUser.id;
+    // console.log(userId);
+    // checkUser !== undefined ? setUserId(checkUser.id) : setUserId(null);
+    // console.log(userId);
+  };
+  const { userId } = useSelector((state) => state.contacts);
 
   return (
     <>
@@ -47,9 +53,11 @@ const Login = () => {
         </form>
       </section>
       <section>
-        {userId !== null
-          ? ""
-          : "incorect user name, please try again or sign in"}
+        {userId !== null ? (
+          <Link to={`/${userId}/contacts`}>{userId}</Link>
+        ) : (
+          "incorect user name, please try again or sign in"
+        )}
       </section>
     </>
   );
