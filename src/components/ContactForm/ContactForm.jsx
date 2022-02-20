@@ -2,8 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { usePostContactMutation } from "./../../utils/api.js";
 
-console.clear();
-
 const ContactForm = () => {
   const [submitData] = usePostContactMutation();
   const { userId } = useSelector((state) => state.contacts);
