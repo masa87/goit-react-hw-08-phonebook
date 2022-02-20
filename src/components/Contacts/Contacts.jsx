@@ -1,11 +1,11 @@
 import React from "react";
-import { store } from "../../app/store.js";
-import { setUserId } from "../../features/contacts.js";
 import { useSelector } from "react-redux";
 import {
   useGetUserContactsQuery,
   useDeleteContactMutation,
 } from "../../utils/api.js";
+import { Loading } from "notiflix";
+import { Notify } from "notiflix/build/notiflix-notify-aio";
 
 const showContacts = (data, filter) => {
   const normalizedFilter = filter.toLowerCase().trim();
@@ -24,7 +24,12 @@ export const Contacts = () => {
   const [deleteContact] = useDeleteContactMutation();
 
   const deleteUserContact = (id) => {
+    Loading.dots();
     deleteContact([userId, id]);
+    setTimeout(() => {
+      Loading.remove();
+      Notify.success("Done");
+    }, 1000);
   };
   const filter = useSelector((state) => state.contacts.filter);
 
