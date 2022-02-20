@@ -5,6 +5,7 @@ import ContactForm from "./components/ContactForm/ContactForm";
 import { ContactList } from "./components/ContactList/ContactList";
 import { Filter } from "./components/Filter/Filter";
 import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
 
 const App = () => {
   return (
@@ -15,8 +16,15 @@ const App = () => {
           path="/"
           element={
             <>
-              <h3>Please log in</h3>
+              {/* <h3>Please log in</h3> */}
               <Login />
+            </>
+          }></Route>
+        <Route
+          path="/register"
+          element={
+            <>
+              <Register />
             </>
           }></Route>
         <Route

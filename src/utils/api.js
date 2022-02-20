@@ -31,6 +31,14 @@ export const api = createApi({
       }),
       invalidatesTags: ["Contacts"],
     }),
+    postUser: build.mutation({
+      query: (user) => ({
+        url: `users/`,
+        method: "POST",
+        body: user,
+      }),
+      invalidatesTags: ["Contacts", "Users"],
+    }),
     deleteContact: build.mutation({
       query: ([userId, id]) => ({
         url: `users/${userId}/contacts/${id}`,
@@ -48,4 +56,5 @@ export const {
   useGetContactsQuery,
   usePostContactMutation,
   useDeleteContactMutation,
+  usePostUserMutation,
 } = api;

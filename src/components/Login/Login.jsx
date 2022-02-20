@@ -42,6 +42,8 @@ const Login = () => {
   return (
     <>
       <section>
+        <h3>Please log in or</h3>
+        <Link to={`/register`}>Register</Link>
         <form onSubmit={handleSubmit}>
           <label>
             User Name:{" "}
