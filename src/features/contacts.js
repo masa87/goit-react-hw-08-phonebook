@@ -4,7 +4,8 @@ import { nanoid } from "@reduxjs/toolkit";
 const defaultState = {
   contacts: [],
   filter: "",
-  userId: null,
+  userId: "",
+  userName: "",
 };
 
 const slice = createSlice({
@@ -31,10 +32,19 @@ const slice = createSlice({
     setUserId: (state, { payload }) => {
       state.userId = payload;
     },
+    setUserName: (state, { payload }) => {
+      state.userName = payload;
+    },
   },
 });
 
-export const { addContact, deleteContact, setFilter, setContacts, setUserId } =
-  slice.actions;
+export const {
+  addContact,
+  deleteContact,
+  setFilter,
+  setContacts,
+  setUserId,
+  setUserName,
+} = slice.actions;
 
 export default slice.reducer;

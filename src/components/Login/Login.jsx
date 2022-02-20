@@ -1,65 +1,58 @@
-import React, { useState } from "react";
+import React from "react";
 import { useGetUsersQuery } from "../../utils/api.js";
-import { Link } from "react-router-dom";
-import ContactForm from "../ContactForm/ContactForm.jsx";
+import { Link, useNavigate } from "react-router-dom";
 import { store } from "../../app/store.js";
-import { setUserId } from "../../features/contacts.js";
-import { useSelector } from "react-redux";
+import { setUserId, setUserName } from "../../features/contacts.js";
+import Navbar from "../Navbar/Navbar.jsx";
+import { Loading } from "notiflix/build/notiflix-loading-aio";
 
 const Login = () => {
-  // const [userId, setUserId] = useState("");
-
-  // const userId =
-  const { data, isError, isLoading } = useGetUsersQuery();
-  // console.log(data);
+  const navigate = useNavigate();
+  const { data } = useGetUsersQuery();
 
   const handleSubmit = (e) => {
+    Loading.remove();
     e.preventDefault();
 
+    Loading.dots();
     const formData = new FormData(e.currentTarget);
     const userNameForm = formData.get("userName");
     const passwordForm = formData.get("password");
-    // console.log(userNameForm);
 
     const checkUser = data.find(
       ({ userName, password }) =>
         userName === userNameForm && password === passwordForm
     );
 
-    // console.log(checkUser);
-
     checkUser !== undefined
       ? store.dispatch(setUserId(checkUser.id))
       : store.dispatch(setUserId(null));
 
-    // userId = checkUser.id;
-    // console.log(userId);
-    // checkUser !== undefined ? setUserId(checkUser.id) : setUserId(null);
-    // console.log(userId);
+    setTimeout(() => {
+      store.dispatch(setUserName(userNameForm));
+      navigate(`/${checkUser.id}/contacts`);
+      // Loading.remove();
+    }, 1000);
   };
-  const { userId } = useSelector((state) => state.contacts);
 
   return (
     <>
+      <Navbar />
+      <h1>Phonebook</h1>
       <section>
-        <h3>Please log in or</h3>
-        <Link to={`/register`}>Register</Link>
+        <h3>
+          Please log in or
+          <Link to={`/register`}> Register</Link>
+        </h3>
         <form onSubmit={handleSubmit}>
           <label>
-            User Name:{" "}
+            Name:{" "}
             <input name="userName" type="text" defaultValue="Latoya Towne" />
             Password:{" "}
             <input name="password" type="text" defaultValue="password 1" />
           </label>{" "}
           <button type="submit">Login</button>
         </form>
-      </section>
-      <section>
-        {userId !== null ? (
-          <Link to={`/${userId}/contacts`}>{userId}</Link>
-        ) : (
-          "incorect user name, please try again or sign in"
-        )}
       </section>
     </>
   );
