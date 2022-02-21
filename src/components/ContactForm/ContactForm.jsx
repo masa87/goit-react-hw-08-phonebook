@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Notify } from "notiflix";
+import { Typography } from "@mui/material";
 
 const ContactForm = () => {
   Loading.remove();
@@ -21,7 +22,7 @@ const ContactForm = () => {
     e.preventDefault();
     form.reset();
 
-    if (name.length < 3 || phone.length < 9) {
+    if (name.length < 3 || phone.length !== 9) {
       Notify.failure("fill correctly requested fields!");
     } else {
       submitData([userId, { name, phone }]);
@@ -37,18 +38,20 @@ const ContactForm = () => {
         justifyContent: "center",
         alignItems: "center",
       }}>
-      <h1>Phonebook</h1>
-      <h3>Hello {userName},</h3>
-      <h4>You can add contact:</h4>
+      <Typography variant="h3">Phonebook</Typography>
+      <Typography variant="subtitle2">{userName}</Typography>
 
       <Box
         component="form"
         sx={{
-          "& > :not(style)": { m: 1, width: "15ch" },
+          marginBottom: "40px",
+          marginTop: "30px",
+          "& > :not(style)": { m: 1, width: "20ch" },
         }}
         noValidate
         autoComplete="on"
         onSubmit={handleSubmit}>
+        <h4>Add contact:</h4>
         <TextField
           name="name"
           id="standard-basic"
@@ -62,7 +65,7 @@ const ContactForm = () => {
           name="number"
           id="standard-basic"
           label="Number 9-digit"
-          type="number"
+          type="text"
           variant="standard"
           // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           // title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
@@ -72,42 +75,6 @@ const ContactForm = () => {
           Add
         </Button>
       </Box>
-
-      {/* <form
-        onSubmit={(e) => {
-          const form = e.target;
-          const name = form.name.value;
-          const phone = form.number.value;
-          e.preventDefault();
-          form.reset();
-          submitData([userId, { name, phone }]);
-        }}>
-        <label>
-          Name
-          <input
-            type="text"
-            name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-          />
-        </label>
-        <label>
-          {" "}
-          Number
-          <input
-            type="tel"
-            name="number"
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-          />
-        </label>
-        <button type="submit">
-          <AddCircleIcon fontSize="small" />
-        </button>
-      </form> */}
-      <h5>or filter by name/number</h5>
     </Box>
   );
 };

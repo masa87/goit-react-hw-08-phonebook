@@ -65,6 +65,7 @@ const Register = () => {
           id="standard-basic"
           label="password"
           variant="standard"
+          type="password"
         />
         <Button type="submit" variant="contained">
           Register

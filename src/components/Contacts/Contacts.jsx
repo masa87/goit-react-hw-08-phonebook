@@ -6,6 +6,11 @@ import {
 } from "../../utils/api.js";
 import { Loading } from "notiflix";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const showContacts = (data, filter) => {
   const normalizedFilter = filter.toLowerCase().trim();
@@ -41,7 +46,27 @@ export const Contacts = () => {
         <>Loading...</>
       ) : data ? (
         <>
-          {showContacts(data, filter).map(({ id, name, phone, userId }) => (
+          <List
+            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+            {showContacts(data, filter).map(({ id, name, phone, userId }) => (
+              <ListItem
+                key={id}
+                disableGutters
+                secondaryAction={
+                  <IconButton
+                    onClick={() => {
+                      deleteUserContact(id);
+                      console.log(`z listy ${userId}, ${id}`);
+                    }}>
+                    <DeleteIcon />
+                  </IconButton>
+                }>
+                <ListItemText primary={`- ${name}: ${phone} `} />
+              </ListItem>
+            ))}
+          </List>
+
+          {/* {showContacts(data, filter).map(({ id, name, phone, userId }) => (
             <li key={id}>
               {name}: {phone}
               <button
@@ -54,7 +79,7 @@ export const Contacts = () => {
                 Delete
               </button>
             </li>
-          ))}
+          ))} */}
         </>
       ) : null}
     </>

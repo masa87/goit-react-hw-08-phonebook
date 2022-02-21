@@ -77,6 +77,7 @@ const Login = () => {
           id="standard-basic"
           label="password"
           variant="standard"
+          type="password"
         />
         <Button type="submit" variant="contained">
           Login
